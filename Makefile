@@ -2,7 +2,7 @@ build:
 	docker-compose -p streamlit-strava -f docker/docker-compose.yml build
 
 serve:
-	docker-compose -f docker/docker-compose.yml up
+	docker-compose -f docker/docker-compose.yml --env-file ./.env.local up
 
 publish_cloud_run: export VERSION=0.1.0
 
