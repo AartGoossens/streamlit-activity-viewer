@@ -20,7 +20,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    command: streamlit run main.py --server.port 8501 --server.runOnSave true
+    command: streamlit run main.py --server.port 8080 --server.runOnSave true
     environment:
       - STRAVA_CLIENT_ID
       - STRAVA_CLIENT_SECRET

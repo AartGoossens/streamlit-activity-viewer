@@ -12,7 +12,7 @@ RUN mkdir /app
 WORKDIR /app
 COPY . /app/
 
-ENV PORT 8501
-EXPOSE 8501
+ENV PORT 8080
+EXPOSE 8080
 
-CMD streamlit run --server.enableCORS false --server.port=8501 main.py
+CMD streamlit run --server.enableCORS false --server.port=8080 main.py
