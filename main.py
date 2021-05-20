@@ -1,5 +1,4 @@
 import streamlit as st
-import sweat
 
 import strava
 
@@ -27,7 +26,7 @@ activity = strava.select_strava_activity(strava_auth)
 if activity is None:
     st.stop()
 
-data = sweat.read_strava(activity["id"], strava_auth["access_token"])
+data = strava.download_activity(activity, strava_auth)
 
 columns = []
 for column in ["heartrate", "power"]:

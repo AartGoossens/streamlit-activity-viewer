@@ -2,6 +2,7 @@ import os
 
 import httpx
 import streamlit as st
+import sweat
 from bokeh.models.widgets import Div
 
 
@@ -119,7 +120,7 @@ def header():
     return col1, col2, col3, strava_button
 
 
-@st.cache()
+@st.cache(show_spinner=False)
 def get_activities(auth, page=1):
     access_token = auth["access_token"]
     response = httpx.get(
@@ -164,3 +165,9 @@ def select_strava_activity(auth):
             activity = None
 
     return activity
+
+
+@st.cache(show_spinner=False, max_entries=30)
+def download_activity(activity, strava_auth):
+    with st.spinner(f"Downloading activity \"{activity['name']}\"..."):
+        return sweat.read_strava(activity["id"], strava_auth["access_token"])
