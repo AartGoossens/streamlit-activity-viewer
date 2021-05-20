@@ -57,6 +57,18 @@ def logout_header(header=None):
         st.bokeh_chart(div)
 
 
+def logged_in_title(strava_auth, header=None):
+    if header is None:
+        base = st
+    else:
+        col, _, _, _ = header
+        base = col
+
+    first_name = strava_auth["athlete"]["firstname"]
+    last_name = strava_auth["athlete"]["lastname"]
+    col.markdown(f"*Welcome, {first_name} {last_name}!*")
+
+
 def authenticate(header=None):
     query_params = st.experimental_get_query_params()
     authorization_code = query_params.get("code", [None])[0]
@@ -75,9 +87,17 @@ def authenticate(header=None):
                 "grant_type": "authorization_code",
             }
         )
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except httpx.HTTPStatusError:
+            st.error("Something went wrong while authenticating with Strava. Please reload and try again")
+            st.stop()
 
-        return response.json()
+        strava_auth = response.json()
+        logged_in_title(strava_auth, header)
+
+        return strava_auth
+
 
 def header():
     col1, col2, col3 = st.beta_columns(3)
