@@ -83,7 +83,7 @@ def logout_header(header=None):
     with col2:
         powered_by_strava_logo()
 
-    if base.button("Logout of Strava"):
+    if base.button("Log out"):
         js = f"window.location.href = '{APP_URL}'"
         html = f"<img src onerror=\"{js}\">"
         div = Div(text=html)
@@ -187,8 +187,9 @@ def select_strava_activity(auth):
     col1, col2 = st.beta_columns([1, 3])
     with col1:
         page = st.number_input(
-            label="Strava activities page",
+            label="Activities page",
             min_value=1,
+            help="The Strava API returns your activities in chunks of 30. Increment this field to go to the next page.",
         )
 
     with col2:
@@ -204,9 +205,11 @@ def select_strava_activity(auth):
             format_func=activity_label,
         )
 
-        if activity["name"] == DEFAULT_ACTIVITY_LABEL:
-            st.stop()
-            return
+    if activity["name"] == DEFAULT_ACTIVITY_LABEL:
+        st.write("No activity selected")
+        st.stop()
+        return
+
     activity_url = f"https://www.strava.com/activities/{activity['id']}"
         
     st.markdown(

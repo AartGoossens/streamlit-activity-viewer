@@ -19,17 +19,22 @@ strava_header = strava.header()
 st.markdown(
     """
     # :circus_tent: Streamlit Activity Viewer for Strava
-    This is a proof of concept application that implements the Strava API OAuth2 authentication flow
-    The source code can be found at [GitHub](https://github.com/AartGoossens/streamlit-activity-viewer)
+    This is a proof of concept of a [Streamlit](https://streamlit.io/) application that implements the [Strava API](https://developers.strava.com/) OAuth2 authentication flow.
+    The source code can be found at [my GitHub](https://github.com/AartGoossens/streamlit-activity-viewer) and is licensed under an [MIT license](https://github.com/AartGoossens/streamlit-activity-viewer/blob/main/LICENSE).
 
-    [Get in touch me with me](https://gssns.io/services/) if you want me to build you a similar application.
+    [Get in touch me with me](https://gssns.io/services/) if you want me to build you an application on top of this one, or a similar application.
     """
 )
 
 strava_auth = strava.authenticate(header=strava_header, stop_if_unauthenticated=False)
 
 if strava_auth is None:
-    st.markdown("Click the \"Connect with Strava\" button to login and get started.")
+    st.markdown("Click the \"Connect with Strava\" button at the top to login with your Strava account and get started.")
+    st.image(
+        "http://files.gssns.io/public/streamlit-activity-viewer-demo.gif",
+        caption="Streamlit Activity Viewer demo",
+        use_column_width="always",
+    )
     st.stop()
 
 
@@ -70,3 +75,5 @@ if selected_columns:
             y=f"{column}:Q",
         )
         st.altair_chart(altair_chart, use_container_width=True)
+else:
+    st.write("No column(s) selected")
