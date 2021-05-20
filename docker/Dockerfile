@@ -5,7 +5,8 @@ RUN pip install \
     streamlit \
     sweat \
     httpx \
-    bokeh
+    bokeh \
+    arrow
 
 RUN mkdir /app
 WORKDIR /app

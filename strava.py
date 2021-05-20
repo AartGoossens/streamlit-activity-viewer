@@ -1,5 +1,6 @@
 import os
 
+import arrow
 import httpx
 import streamlit as st
 import sweat
@@ -140,7 +141,11 @@ def activity_label(activity):
     if activity["name"] == DEFAULT_ACTIVITY_LABEL:
         return ""
 
-    return f"{activity['name']} ({activity['start_date_local']})"
+    start_date = arrow.get(activity["start_date_local"])
+    human_readable_date = start_date.humanize(granularity=["day"])
+    date_string = start_date.format("YYYY-MM-DD")
+
+    return f"{activity['name']} - {date_string} ({human_readable_date})"
 
 
 def select_strava_activity(auth):
