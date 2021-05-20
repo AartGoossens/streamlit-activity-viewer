@@ -14,9 +14,9 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
-  streamlit-strava:
-    image: streamlit-strava
-    container_name: streamlit-strava-dev
+  streamlit-activity-viewer:
+    image: streamlit-activity-viewer
+    container_name: streamlit-activity-viewer-dev
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -24,7 +24,7 @@ services:
     environment:
       - STRAVA_CLIENT_ID
       - STRAVA_CLIENT_SECRET
-      - APP_URL=http://streamlit-strava.localhost
+      - APP_URL=http://streamlit-activity-viewer.localhost
       - PYTHONDONTWRITEBYTECODE=1
     volumes:
       - ..:/app
@@ -32,12 +32,12 @@ services:
       - traefik
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.streamlit-strava.rule=Host(`streamlit-strava.localhost`)"
-      - "traefik.http.routers.streamlit-strava.entrypoints=web"
+      - "traefik.http.routers.streamlit-activity-viewer.rule=Host(`streamlit-activity-viewer.localhost`)"
+      - "traefik.http.routers.streamlit-activity-viewer.entrypoints=web"
         # Source: https://swagger.io/docs/open-source-tools/swagger-ui/usage/cors/
       - "traefik.http.middlewares.corsheaders.headers.accesscontrolallowmethods=GET,OPTIONS,POST,PUT,DELETE"
       - "traefik.http.middlewares.corsheaders.headers.accesscontrolalloworiginlist=*"
       - "traefik.http.middlewares.corsheaders.headers.accessControlAllowHeaders=Content-Type, api_key, Authorization, caller_id"
       - "traefik.http.middlewares.corsheaders.headers.accesscontrolmaxage=100"
       - "traefik.http.middlewares.corsheaders.headers.addvaryheader=true"
-      - "traefik.http.routers.streamlit-strava.middlewares=corsheaders@docker"
+      - "traefik.http.routers.streamlit-activity-viewer.middlewares=corsheaders@docker"

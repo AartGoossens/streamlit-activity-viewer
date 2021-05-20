@@ -8,7 +8,7 @@ from pandas.api.types import is_numeric_dtype
 
 
 st.set_page_config(
-    page_title="Streamlit-Strava",
+    page_title="Streamlit Activity Viewer for Strava",
     page_icon=":circus_tent:",
 )
 
@@ -18,7 +18,7 @@ strava_header = strava.header()
 
 st.markdown(
     """
-    # :circus_tent: Streamlit-Strava
+    # :circus_tent: Streamlit Activity Viewer for Strava
     """
 )
 

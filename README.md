@@ -1,1 +1,1 @@
-# Streamlit-Strava
+# Streamlit Activity Viewer for Strava
