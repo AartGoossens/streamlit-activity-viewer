@@ -19,6 +19,10 @@ strava_header = strava.header()
 st.markdown(
     """
     # :circus_tent: Streamlit Activity Viewer for Strava
+    This is a proof of concept application that implements the Strava API OAuth2 authentication flow
+    The source code can be found at [GitHub](https://github.com/AartGoossens/streamlit-activity-viewer)
+
+    [Get in touch me with me](https://gssns.io/services/) if you want me to build you a similar application.
     """
 )
 
