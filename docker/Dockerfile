@@ -4,7 +4,8 @@ RUN pip install --upgrade pip
 RUN pip install \
     streamlit \
     sweat \
-    httpx
+    httpx \
+    bokeh
 
 RUN mkdir /app
 WORKDIR /app

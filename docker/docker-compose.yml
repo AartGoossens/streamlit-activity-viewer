@@ -24,6 +24,7 @@ services:
     environment:
       - STRAVA_CLIENT_ID
       - STRAVA_CLIENT_SECRET
+      - APP_URL=http://streamlit-strava.localhost
     volumes:
       - ..:/app
     depends_on:

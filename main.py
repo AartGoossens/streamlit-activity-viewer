@@ -1,10 +1,6 @@
-import os
-
 import streamlit as st
 
-
-STRAVA_CLIENT_ID = os.environ["STRAVA_CLIENT_ID"]
-STRAVA_CLIENT_SECRET = os.environ["STRAVA_CLIENT_SECRET"]
+import strava
 
 
 st.set_page_config(
@@ -12,12 +8,15 @@ st.set_page_config(
     page_icon=":chart_with_upwards_trend:",
 )
 
-
 st.image("https://analytics.gssns.io/pixel.png")
-
 
 st.markdown(
     """
     # Streamlit-Strava
     """
 )
+
+strava_auth = strava.authenticate()
+
+st.write("You are logged in")
+st.write(strava_auth)
