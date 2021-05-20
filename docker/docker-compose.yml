@@ -25,6 +25,7 @@ services:
       - STRAVA_CLIENT_ID
       - STRAVA_CLIENT_SECRET
       - APP_URL=http://streamlit-strava.localhost
+      - PYTHONDONTWRITEBYTECODE=1
     volumes:
       - ..:/app
     depends_on:
