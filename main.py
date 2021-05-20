@@ -1,4 +1,5 @@
 import streamlit as st
+import sweat
 
 import strava
 
@@ -20,5 +21,17 @@ st.markdown(
 
 strava_auth = strava.authenticate(header=strava_header)
 
-st.write("You are logged in")
-st.write(strava_auth)
+
+activity = strava.select_strava_activity(strava_auth)
+
+if activity is None:
+    st.stop()
+
+data = sweat.read_strava(activity["id"], strava_auth["access_token"])
+
+columns = []
+for column in ["heartrate", "power"]:
+    if column in data.columns:
+        columns.append(column)
+
+st.line_chart(data[columns])
