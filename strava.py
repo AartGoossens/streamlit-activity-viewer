@@ -14,6 +14,7 @@ STRAVA_CLIENT_SECRET = os.environ["STRAVA_CLIENT_SECRET"]
 STRAVA_AUTHORIZATION_URL = "https://www.strava.com/oauth/authorize"
 STRAVA_API_BASE_URL = "https://www.strava.com/api/v3"
 DEFAULT_ACTIVITY_LABEL = "NO_ACTIVITY_SELECTED"
+STRAVA_ORANGE = "#fc4c02"
 
 
 
@@ -124,13 +125,15 @@ def exchange_authorization_code(authorization_code):
     return strava_auth
 
 
-def authenticate(header=None):
+def authenticate(header=None, stop_if_unauthenticated=True):
     query_params = st.experimental_get_query_params()
     authorization_code = query_params.get("code", [None])[0]
 
     if authorization_code is None:
         login_header(header=header)
-        st.stop()
+        if stop_if_unauthenticated:
+            st.stop()
+        return
     else:
         logout_header(header=header)
 
@@ -198,13 +201,18 @@ def select_strava_activity(auth):
         if activity["name"] == DEFAULT_ACTIVITY_LABEL:
             st.stop()
             return
+    activity_url = f"https://www.strava.com/activities/{activity['id']}"
         
-    st.markdown(f"[View on Strava](https://www.strava.com/activities/{activity['id']})")
+    st.markdown(
+        f"<a href=\"{activity_url}\" style=\"color:{STRAVA_ORANGE};\">View on Strava</a>",
+        unsafe_allow_html=True
+    )
+
 
     return activity
 
 
-@st.cache(show_spinner=False, max_entries=30)
+@st.cache(show_spinner=False, max_entries=30, allow_output_mutation=True)
 def download_activity(activity, strava_auth):
     with st.spinner(f"Downloading activity \"{activity['name']}\"..."):
         return sweat.read_strava(activity["id"], strava_auth["access_token"])
