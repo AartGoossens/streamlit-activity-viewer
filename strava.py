@@ -1,3 +1,4 @@
+import base64
 import os
 
 import arrow
@@ -13,6 +14,22 @@ STRAVA_CLIENT_SECRET = os.environ["STRAVA_CLIENT_SECRET"]
 STRAVA_AUTHORIZATION_URL = "https://www.strava.com/oauth/authorize"
 STRAVA_API_BASE_URL = "https://www.strava.com/api/v3"
 DEFAULT_ACTIVITY_LABEL = "NO_ACTIVITY_SELECTED"
+
+
+
+@st.cache(show_spinner=False)
+def load_image_as_base64(image_path):
+    with open(image_path, "rb") as f:
+        contents = f.read()
+    return base64.b64encode(contents).decode("utf-8")
+
+
+def powered_by_strava_logo():
+    base64_image = load_image_as_base64("./static/api_logo_pwrdBy_strava_horiz_light.png")
+    st.markdown(
+        f'<img src="data:image/png;base64,{base64_image}" width="100%" alt="powered by strava">',
+        unsafe_allow_html=True,
+    )
 
 
 def authorization_url():
@@ -37,22 +54,33 @@ def login_header(header=None):
     if header is None:
         base = st
     else:
-        _, _, _, button = header
+        col1, _, _, button = header
         base = button
 
-    if base.button("Login with Strava"):
-        js = f"window.location.href = '{strava_authorization_url}'"
-        html = f"<img src onerror=\"{js}\">"
-        div = Div(text=html)
-        st.bokeh_chart(div)
+    with col1:
+        powered_by_strava_logo()
+
+    base64_image = load_image_as_base64("./static/btn_strava_connectwith_orange@2x.png")
+    base.markdown(
+        (
+            f"<a href=\"{strava_authorization_url}\">"
+            f"  <img alt=\"strava login\" src=\"data:image/png;base64,{base64_image}\" width=\"100%\">"
+            f"</a>"
+        ),
+        unsafe_allow_html=True,
+    )
 
 
 def logout_header(header=None):
     if header is None:
         base = st
     else:
-        _, _, _, button = header
+        _, col2, _, button = header
         base = button
+
+
+    with col2:
+        powered_by_strava_logo()
 
     if base.button("Logout of Strava"):
         js = f"window.location.href = '{APP_URL}'"
@@ -115,6 +143,7 @@ def authenticate(header=None):
 
 def header():
     col1, col2, col3 = st.beta_columns(3)
+
     with col3:
         strava_button = st.empty()
 
@@ -169,6 +198,8 @@ def select_strava_activity(auth):
         if activity["name"] == DEFAULT_ACTIVITY_LABEL:
             st.stop()
             return
+        
+    st.markdown(f"[View on Strava](https://www.strava.com/activities/{activity['id']})")
 
     return activity
 
