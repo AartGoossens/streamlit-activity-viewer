@@ -167,7 +167,8 @@ def select_strava_activity(auth):
         )
 
         if activity["name"] == DEFAULT_ACTIVITY_LABEL:
-            activity = None
+            st.stop()
+            return
 
     return activity
 

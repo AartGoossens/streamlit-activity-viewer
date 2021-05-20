@@ -22,11 +22,8 @@ strava_auth = strava.authenticate(header=strava_header)
 
 
 activity = strava.select_strava_activity(strava_auth)
-
-if activity is None:
-    st.stop()
-
 data = strava.download_activity(activity, strava_auth)
+
 
 columns = []
 for column in ["heartrate", "power"]:
