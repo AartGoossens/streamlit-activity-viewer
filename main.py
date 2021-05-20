@@ -10,13 +10,15 @@ st.set_page_config(
 
 st.image("https://analytics.gssns.io/pixel.png")
 
+strava_header = strava.header()
+
 st.markdown(
     """
     # Streamlit-Strava
     """
 )
 
-strava_auth = strava.authenticate()
+strava_auth = strava.authenticate(header=strava_header)
 
 st.write("You are logged in")
 st.write(strava_auth)
