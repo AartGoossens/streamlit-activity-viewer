@@ -130,6 +130,9 @@ def authenticate(header=None, stop_if_unauthenticated=True):
     authorization_code = query_params.get("code", [None])[0]
 
     if authorization_code is None:
+        authorization_code = query_params.get("session", [None])[0]
+
+    if authorization_code is None:
         login_header(header=header)
         if stop_if_unauthenticated:
             st.stop()
@@ -140,6 +143,8 @@ def authenticate(header=None, stop_if_unauthenticated=True):
         strava_auth = exchange_authorization_code(authorization_code)
 
         logged_in_title(strava_auth, header)
+
+        st.experimental_set_query_params(session=authorization_code)
 
         return strava_auth
 
