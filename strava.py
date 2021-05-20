@@ -190,6 +190,9 @@ def select_strava_activity(auth):
 
     with col2:
         activities = get_activities(auth=auth, page=page)
+        if not activities:
+            st.info("This Strava account has no activities or you ran out of pages.")
+            st.stop()
         default_activity = {"name": DEFAULT_ACTIVITY_LABEL, "start_date_local": ""}
 
         activity = st.selectbox(
