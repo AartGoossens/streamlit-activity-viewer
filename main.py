@@ -1,3 +1,5 @@
+import base64
+
 import altair as alt
 import streamlit as st
 
@@ -29,6 +31,20 @@ if strava_auth is None:
 
 activity = strava.select_strava_activity(strava_auth)
 data = strava.download_activity(activity, strava_auth)
+
+
+csv = data.to_csv()
+csv_as_base64 = base64.b64encode(csv.encode()).decode()
+st.markdown(
+    (
+        f"<a "
+        f"href=\"data:application/octet-stream;base64,{csv_as_base64}\" "
+        f"download=\"{activity['id']}.csv\" "
+        f"style=\"color:{strava.STRAVA_ORANGE};\""
+        f">Download activity as csv file</a>"
+    ),
+    unsafe_allow_html=True
+)
 
 
 columns = []
