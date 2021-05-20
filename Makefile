@@ -4,7 +4,7 @@ build:
 serve:
 	docker-compose -f docker/docker-compose.yml --env-file ./.env.local up
 
-publish_cloud_run: export VERSION=0.1.0
+publish_cloud_run: export VERSION=0.2.0
 
 publish_cloud_run:
 	gcloud config configurations activate gssns
